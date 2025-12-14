@@ -19,9 +19,8 @@ public class RetryWorker {
         System.out.println("Retry Worker start!");
         while (true) {
             try {
-                NotificationRequest notificationRequest = notificationQueue.take();
+                NotificationRequest notificationRequest = notificationQueue.retryTake();
                 System.out.println("Retrying...");
-                Thread.sleep(2000);
                 notificationQueue.publish(notificationRequest);
             } catch (Exception e) {
                 log.error("Retry error : " + e.getMessage());

@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class LogConsumer {
     private final LogProducer logProducer;
-
     @Async
     public void start() {
         System.out.println("Log consumer start!");
@@ -25,19 +25,19 @@ public class LogConsumer {
         while (true) {
             LogEvent logEvent;
             try {
-                logEvent = logProducer.getQueue().take();
+                logEvent = logProducer.getQueue().poll(1, TimeUnit.SECONDS);
+                if (logEvent != null) {
+                    logBuffer.add(logEvent);
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            logBuffer.add(logEvent);
+
             long now = System.currentTimeMillis();
-            if (logBuffer.size() >  50 || now - lastFlush > 5000) {
+            if (logBuffer.size() >  50 || now - lastFlush > 1000) {
                 flush(logBuffer);
                 logBuffer.clear();
                 lastFlush = now;
-                System.out.println("Log consumer has been sent to the queue");
-            } else {
-                System.out.println("Nothing to flush");
             }
         }
     }
