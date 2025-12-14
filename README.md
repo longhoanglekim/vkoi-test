@@ -1,4 +1,5 @@
 # vkoi-test
+- **Phần minimal working cho 3 bài test dược em triển khai ở trong folder Spring boot demo-test.**
 ## Mô tả
 Notification Service là một hệ thống đơn giản minh họa việc gửi thông báo (email) được thiết kế theo mô hình **bất đồng bộ (asynchronous)** và **queue-based**, nhằm xử lý số lượng lớn thông báo với hiệu năng cao, khả năng mở rộng tốt và chịu lỗi hiệu quả.
 
@@ -78,6 +79,5 @@ Cơ chế này giúp hệ thống:
 ---
 
 ## Ghi chú
-- **Phần minimal working cho bài test dược em triển khai ở trong folder Spring boot demo-test.**
 - Đây là phiên bản **đơn giản hóa cho mục đích học tập và bài test**, các queue hiện được cài đặt dưới dạng in-memory.  
 - Trong môi trường production, có thể thay thế bằng Kafka, RabbitMQ hoặc các message broker tương đương.
